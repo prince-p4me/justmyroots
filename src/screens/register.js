@@ -13,6 +13,10 @@ export default class Register extends React.Component {
 
     componentDidMount = () => {
         console.log("entering Register");
+        const { navigation } = this.props;
+        const mobile = navigation.navigate("mobile");
+        console.log("mobile no.", mobile);
+        this.setState({ mobile });
     }
 
     register = async () => {
