@@ -4,6 +4,10 @@ import React from "react"
 export default class DashboardScreen extends React.Component {
     state = {};
 
+    static navigationOptions = {
+        header: null
+    }
+
     componentDidMount = () => {
 
     }

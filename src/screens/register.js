@@ -8,6 +8,10 @@ import Toast from 'react-native-simple-toast';
 export default class Register extends React.Component {
     state = {
         mobile: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        referralCode: "",
         visible: false
     };
 
@@ -20,7 +24,20 @@ export default class Register extends React.Component {
     }
 
     register = async () => {
-        let { mobile } = this.state;
+        const regex = /\S+@\S+\.\S+/;
+        let { mobile, firstName, lastName, email, referralCode } = this.state;
+        if (!firstName) {
+            Toast.showWithGravity("Please enter your first name . . .", Toast.LONG, Toast.BOTTOM);
+            return;
+        }
+        if (!lastName) {
+            Toast.showWithGravity("Please enter your last name . . .", Toast.LONG, Toast.BOTTOM);
+            return;
+        }
+        if (!email || !regex.test(email)) {
+            Toast.showWithGravity("Please enter your valid email id . . .", Toast.LONG, Toast.BOTTOM);
+            return;
+        }
         try {
             let response = await fetch(constant.API_URL + 'sendOtp', {
                 method: 'POST',
@@ -29,28 +46,30 @@ export default class Register extends React.Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    mobile
+                    mobile,
+                    firstName,
+                    lastName,
+                    email,
+                    referralCode
                 })
             });
             response = await response.json();
             console.log("response", response);
             this.setState({ visible: false });
-            if (response) {
-                this.props.navigation.navigate((response.status ? "Otp" : "Register"), { mobile });
+            if (response && response.status) {
+                this.props.navigation.navigate("Otp", { mobile });
+                Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
+            } else {
+                Toast.showWithGravity("Invalid request", Toast.LONG, Toast.BOTTOM);
             }
-            Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
         } catch (error) {
             this.setState({ visible: false });
         }
-        // Toast.show({
-        //     text: "Wish a dish submitted successfuly",
-        //     buttonText: "Okay",
-        //     duration: 3000
-        // });
     }
 
     render() {
-        let { mobile, visible } = this.state;
+        let { mobile, visible, firstName, lastName, email, referralCode } = this.state;
+
         return (
             <View style={styles.container}>
                 <Loader loading={visible} />
@@ -58,7 +77,40 @@ export default class Register extends React.Component {
                     placeholder="Enter Mobile Number"
                     placeholderTextColor={"black"}
                     keyboardType="phone-pad"
-                    onChangeText={mobile => this.setState({ mobile })}
+                    value={mobile}
+                    editable={false}
+                />
+                <TextInput style={styles.input}
+                    placeholder="Enter first name"
+                    placeholderTextColor={"black"}
+                    value={firstName}
+                    onChangeText={firstName => this.setState({ firstName })}
+                    returnKeyLabel="Next"
+                    returnKeyType="next"
+                />
+                <TextInput style={styles.input}
+                    placeholder="Enter last name"
+                    placeholderTextColor={"black"}
+                    value={lastName}
+                    onChangeText={lastName => this.setState({ lastName })}
+                    returnKeyLabel="Next"
+                    returnKeyType="next"
+                />
+                <TextInput style={styles.input}
+                    placeholder="Enter valid email address"
+                    placeholderTextColor={"black"}
+                    value={email}
+                    keyboardType="email-address"
+                    onChangeText={email => this.setState({ email })}
+                    onSubmitEditing={() => this.register()}
+                    returnKeyLabel="Done"
+                    returnKeyType="done"
+                />
+                <TextInput style={styles.input}
+                    placeholder="Enter referral code"
+                    placeholderTextColor={"black"}
+                    value={referralCode}
+                    onChangeText={referralCode => this.setState({ referralCode })}
                     onSubmitEditing={() => this.register()}
                     returnKeyLabel="Done"
                     returnKeyType="done"

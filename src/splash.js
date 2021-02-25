@@ -7,10 +7,14 @@ import constant from "./constant";
 import SplashScreen from 'react-native-splash-screen';
 
 export default class Splash extends React.Component {
-    state = {};
+    state = {
+        loading: false
+    };
 
     componentDidMount = async () => {
         try {
+            this.setState({ loading: true })
+            // await AsyncStorage.setItem(constant.TOKEN, null);
             const token = await AsyncStorage.getItem(constant.TOKEN, null);
             if (token) {
                 this.props.navigation.navigate("App")
@@ -18,16 +22,20 @@ export default class Splash extends React.Component {
                 this.props.navigation.navigate("Auth")
             }
             SplashScreen.hide();
+            this.setState({ loading: false })
         } catch (e) {
+            console.log("error", e)
+            this.setState({ loading: false });
             // saving error
         }
     }
 
     render() {
+        let { loading } = this.state;
         return (
             <ImageBackground source={splash} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 {/* <Text>Hello</Text> */}
-                <Loader visible={true} />
+                <Loader loading={loading} />
             </ImageBackground>
         )
     }
