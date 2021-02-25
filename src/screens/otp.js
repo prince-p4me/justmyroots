@@ -4,11 +4,13 @@ import constant from "../constant";
 import styles from "./style";
 import Loader from "../Loader";
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class OTPScreen extends React.Component {
     state = {
         mobile: "",
-        visible: false
+        visible: false,
+        otp: ""
     };
 
     componentDidMount = () => {
@@ -20,51 +22,62 @@ export default class OTPScreen extends React.Component {
     }
 
     verify = async () => {
-        let { mobile } = this.state;
+        let { mobile, otp } = this.state;
+        if (!otp) {
+            Toast.showWithGravity("Please enter OTP . . .", Toast.LONG, Toast.BOTTOM);
+            return;
+        }
         try {
-            let response = await fetch(constant.API_URL + 'sendOtp', {
+            let response = await fetch(constant.API_URL + 'verifyMobile', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    mobile
+                    mobile,
+                    otp
                 })
             });
             response = await response.json();
             console.log("response", response);
             this.setState({ visible: false });
-            if (response) {
-                this.props.navigation.navigate((response.status ? "Otp" : "Register"), { mobile });
+            if (response && response.verified && response.token) {
+                await AsyncStorage.setItem(constant.TOKEN, response.token);
+                Toast.showWithGravity("Otp verification successfull . . .", Toast.LONG, Toast.BOTTOM);
+                this.props.navigation.navigate("App");
+            } else {
+                Toast.showWithGravity("Invalid OTP . . .", Toast.LONG, Toast.BOTTOM);
             }
-            Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
         } catch (error) {
             this.setState({ visible: false });
         }
-        // Toast.show({
-        //     text: "Wish a dish submitted successfuly",
-        //     buttonText: "Okay",
-        //     duration: 3000
-        // });
     }
 
     render() {
-        let { mobile, visible } = this.state;
+        let { mobile, visible, otp } = this.state;
         return (
             <View style={styles.container}>
                 <Loader loading={visible} />
                 <TextInput style={styles.input}
                     placeholder="Enter Mobile Number"
                     placeholderTextColor={"black"}
+                    editable={false}
+                    value={mobile}
+                />
+                <TextInput style={styles.input}
+                    placeholder="Enter OTP"
+                    placeholderTextColor={"black"}
+                    maxLength={6}
+                    value={otp}
                     keyboardType="phone-pad"
-                    onChangeText={mobile => this.setState({ mobile })}
+                    onChangeText={otp => this.setState({ otp })}
                     onSubmitEditing={() => this.verify()}
                     returnKeyLabel="Done"
                     returnKeyType="done"
                 />
                 <TouchableOpacity style={styles.fullBtn} activeOpacity={.8}
-                    onPress={() => this.register()}>
+                    onPress={() => this.verify()}>
                     <Text style={styles.btnText}>VERIFY</Text>
                 </TouchableOpacity>
             </View>

@@ -17,6 +17,10 @@ export default class Login extends React.Component {
 
     sendOTP = async () => {
         let { mobile } = this.state;
+        if (!mobile) {
+            Toast.showWithGravity("Please enter valid mobile number . . .", Toast.LONG, Toast.BOTTOM);
+            return;
+        }
         try {
             let response = await fetch(constant.API_URL + 'sendOtp', {
                 method: 'POST',
@@ -38,11 +42,6 @@ export default class Login extends React.Component {
         } catch (error) {
             this.setState({ visible: false });
         }
-        // Toast.show({
-        //     text: "Wish a dish submitted successfuly",
-        //     buttonText: "Okay",
-        //     duration: 3000
-        // });
     }
 
     render() {
