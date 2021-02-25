@@ -39,7 +39,7 @@ export default class Register extends React.Component {
             return;
         }
         try {
-            let response = await fetch(constant.API_URL + 'sendOtp', {
+            let response = await fetch(constant.API_URL + 'registerOTP', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
