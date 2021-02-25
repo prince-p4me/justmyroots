@@ -16,13 +16,14 @@ export default class Splash extends React.Component {
             this.setState({ loading: true })
             // await AsyncStorage.setItem(constant.TOKEN, null);
             const token = await AsyncStorage.getItem(constant.TOKEN, null);
-            if (token) {
-                this.props.navigation.navigate("App")
-            } else {
-                this.props.navigation.navigate("Auth")
-            }
+            this.setState({ loading: false }, () => {
+                if (token) {
+                    this.props.navigation.navigate("App")
+                } else {
+                    this.props.navigation.navigate("Auth")
+                }
+            });
             SplashScreen.hide();
-            this.setState({ loading: false })
         } catch (e) {
             console.log("error", e)
             this.setState({ loading: false });
