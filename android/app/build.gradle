@@ -129,11 +129,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.justmyroots"
+        applicationId "com.cre8comm.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 120
-        versionName "0.2.8"
+        versionName "0.3.0"
     }
     splits {
         abi {
