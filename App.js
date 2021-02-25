@@ -1,22 +1,44 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { SafeAreaView, View } from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import DashboardScreen from './src/screens/dashboard';
+import LoginScreen from './src/screens/login';
+import OtpScreen from './src/screens/otp';
+import RegisterScreen from './src/screens/register';
+import Splash from './src/splash';
+import Constants from "./src/constant"
 
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-      </View>
-    );
-  }
-}
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
+const AppStack = createStackNavigator({
+  Home: DashboardScreen
 });
 
-export default createAppContainer(AppNavigator);
+const AuthStack = createStackNavigator({
+  Login: LoginScreen,
+  Otp: OtpScreen,
+  Register: RegisterScreen
+});
+
+const Navigations = createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: Splash,
+      App: AppStack,
+      Auth: AuthStack,
+    },
+    {
+      initialRouteName: 'AuthLoading',
+    }
+  )
+);
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: Constants.theme }}></SafeAreaView>
+        <Navigations />
+      </View>
+    )
+  }
+}
