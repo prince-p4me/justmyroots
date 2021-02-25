@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, StatusBar } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import DashboardScreen from './src/screens/dashboard';
@@ -36,6 +36,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar backgroundColor={Constants.theme}></StatusBar>
         <SafeAreaView style={{ backgroundColor: Constants.theme }}></SafeAreaView>
         <Navigations />
       </View>
