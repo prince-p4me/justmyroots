@@ -132,8 +132,8 @@ android {
         applicationId "com.justmyroots"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 120
+        versionName "0.2.8"
     }
     splits {
         abi {
