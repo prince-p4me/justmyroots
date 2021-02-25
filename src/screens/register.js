@@ -1,7 +1,7 @@
 import { View, ImageBackground, Text } from "react-native";
 import React from "react"
 
-export default class Splash extends React.Component {
+export default class RegisterScreen extends React.Component {
     state = {};
 
     componentDidMount = () => {
@@ -11,7 +11,7 @@ export default class Splash extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <Text>Hello</Text>
+                <Text>RegisterScreen</Text>
             </View>
         )
     }

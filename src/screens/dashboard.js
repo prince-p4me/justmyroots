@@ -1,7 +1,7 @@
 import { View, ImageBackground, Text } from "react-native";
 import React from "react"
 
-export default class Splash extends React.Component {
+export default class Demo extends React.Component {
     state = {};
 
     componentDidMount = () => {
