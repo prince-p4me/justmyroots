@@ -10,10 +10,14 @@ export default class DashboardScreen extends React.Component {
         super(props);
         this.state = {
             token: "",
-            loading: false
+            loading: false,
+            canGoBack: false
         };
-        this.webview = null;
+        // this.webview = null;
     }
+
+    webview = React.createRef();
+
 
     static navigationOptions = {
         header: null
@@ -30,14 +34,14 @@ export default class DashboardScreen extends React.Component {
 
     backButtonHandler = () => {
         console.log("handling back button");
-        if (this.webview) {
-            this.webview.goBack()
-        } else {
-            BackHandler.exitApp();
+        if (this.webview && this.webview.current && this.state.canGoBack) {
+            this.webview.current.goBack();
+            return true;
         }
+        // else {
+        //     BackHandler.exitApp();
+        // }
     }
-
-
 
     render() {
         let { token, loading } = this.state;
@@ -51,7 +55,11 @@ export default class DashboardScreen extends React.Component {
                         style={{ flex: 1 }}
                     />
                 )}
-                ref={ref => (this.webview = ref)}
+                ref={this.webview}
+                // ref={ref => (this.webview = ref)}
+                onNavigationStateChange={navState => {
+                    this.setState({ canGoBack: navState.canGoBack });
+                }}
             />
         } else {
             return (
