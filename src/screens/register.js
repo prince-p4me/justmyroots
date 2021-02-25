@@ -14,7 +14,7 @@ export default class Register extends React.Component {
     componentDidMount = () => {
         console.log("entering Register");
         const { navigation } = this.props;
-        const mobile = navigation.navigate("mobile");
+        const mobile = navigation.getParam("mobile");
         console.log("mobile no.", mobile);
         this.setState({ mobile });
     }
