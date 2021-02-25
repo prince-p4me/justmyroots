@@ -3,6 +3,7 @@ import React from "react"
 import constant from "../constant";
 import styles from "./style";
 import Loader from "../Loader";
+import Toast from 'react-native-simple-toast';
 
 export default class Login extends React.Component {
     state = {
@@ -33,6 +34,7 @@ export default class Login extends React.Component {
             if (response) {
                 this.props.navigation.navigate((response.status ? "Otp" : "Register"), { mobile });
             }
+            Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
         } catch (error) {
             this.setState({ visible: false });
         }
