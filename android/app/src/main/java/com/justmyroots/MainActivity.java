@@ -1,6 +1,10 @@
 package com.justmyroots;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
+
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +15,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "justmyroots";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstance){
+    SplashScreen.show(this);
+    super.onCreate(savedInstance);
   }
 }

@@ -4,6 +4,7 @@ import splash from "./assets/imgs/splash.png"
 import Loader from "./Loader";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import constant from "./constant";
+import SplashScreen from 'react-native-splash-screen';
 
 export default class Splash extends React.Component {
     state = {};
@@ -16,6 +17,7 @@ export default class Splash extends React.Component {
             } else {
                 this.props.navigation.navigate("Auth")
             }
+            SplashScreen.hide();
         } catch (e) {
             // saving error
         }
