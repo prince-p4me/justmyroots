@@ -57,7 +57,7 @@ export default class Register extends React.Component {
             console.log("response", response);
             this.setState({ visible: false });
             if (response && response.status) {
-                this.props.navigation.navigate("Otp", { mobile });
+                this.props.navigation.navigate("OTP", { mobile });
                 Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
             } else {
                 Toast.showWithGravity("Invalid request", Toast.LONG, Toast.BOTTOM);

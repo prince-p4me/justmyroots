@@ -36,9 +36,9 @@ export default class Login extends React.Component {
             console.log("response", response);
             this.setState({ visible: false });
             if (response) {
-                this.props.navigation.navigate((response.status ? "Otp" : "Register"), { mobile });
+                this.props.navigation.navigate((response.status ? "OTP" : "Register"), { mobile });
             }
-            Toast.showWithGravity("Otp sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
+            Toast.showWithGravity("OTP sent to your mobile number or email", Toast.LONG, Toast.BOTTOM);
         } catch (error) {
             this.setState({ visible: false });
         }
