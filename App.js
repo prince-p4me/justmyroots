@@ -6,6 +6,7 @@ import DashboardScreen from './src/screens/dashboard';
 import LoginScreen from './src/screens/login';
 import OtpScreen from './src/screens/otp';
 import RegisterScreen from './src/screens/register';
+import Forceupdate from './src/screens/forceupdate';
 import Splash from './src/splash';
 import Constants from "./src/constant"
 
@@ -25,6 +26,7 @@ const Navigations = createAppContainer(
       AuthLoading: Splash,
       App: AppStack,
       Auth: AuthStack,
+      Force: Forceupdate
     },
     {
       initialRouteName: 'AuthLoading',
